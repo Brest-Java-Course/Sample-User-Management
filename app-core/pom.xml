@@ -21,5 +21,8 @@
           </dependency>
     </dependencies>
 
+    <build>
+        <testSourceDirectory>src/main/test</testSourceDirectory>
+    </build>
 
 </project>
