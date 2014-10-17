@@ -4,9 +4,9 @@ public class User {
 
 	private Long userId;
 
-        private String login;
+    private String login;
 
-        private String name;
+    private String name;
 
 	public Long getUserId() {
 		return userId;
