@@ -1,0 +1,10 @@
+.ditignore
+**/.idea
+**/*.iml
+**/*.*~
+**/*.jar
+**/*.class
+**/*.log
+**/target/
+
+
