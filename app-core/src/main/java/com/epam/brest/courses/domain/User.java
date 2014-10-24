@@ -8,7 +8,16 @@ public class User {
 
     private String name;
 
-	public Long getUserId() {
+    public User() {
+    }
+
+    public User(Long userId, String login, String name) {
+        this.userId = userId;
+        this.login = login;
+        this.name = name;
+    }
+
+    public Long getUserId() {
 		return userId;
 	}
 
@@ -30,6 +39,14 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
-	}  
+	}
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

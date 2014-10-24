@@ -15,4 +15,10 @@ public interface UserDao {
 
     public void removeUser(Long userId);
 
+    public User getUserByLogin(String login);
+
+    public User getUserById(long userId);
+
+    public void updateUser(User user);
+
 }
