@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.zip.DataFormatException;
-
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
 /**
  * Created by mentee-42 on 27.10.14.
@@ -94,11 +92,11 @@ public class UserServiceImplMockTest {
         userService.addUser(user);
     }
 
-    @Test(expected = DataFormatException.class)
-    public void NumberFormatException() {
+    @Test(expected = UnsupportedOperationException.class)
+    public void throwException() {
         User user = UserDataFixture.getNewUser();
 
-        expect(userDao.getUserByLogin(user.getLogin())).andThrow(new DataFormatException());
+        expect(userDao.getUserByLogin(user.getLogin())).andThrow(new UnsupportedOperationException());
 
         replay(userDao);
 
