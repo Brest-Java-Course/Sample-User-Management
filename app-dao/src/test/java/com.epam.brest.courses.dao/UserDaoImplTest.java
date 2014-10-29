@@ -31,7 +31,7 @@ public class UserDaoImplTest {
         int sizeBefore = users.size();
 
         User user = new User();
-        user.setUserId(3L);
+       // user.setUserId(3L);
         user.setLogin("userLogin3");
         user.setName("userName3");
 

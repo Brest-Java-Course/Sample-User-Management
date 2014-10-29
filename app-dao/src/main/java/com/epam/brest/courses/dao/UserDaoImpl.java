@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -46,6 +47,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addUser(User user) {
         LOGGER.debug("addUser({}) ", user);
+        Assert.notNull(user);
+        Assert.isNull(user.getUserId());
+        Assert.notNull(user.getLogin(), "User login should be specified.");
+        Assert.notNull(user.getName(), "User name should be specified.");
         Map<String, Object> parameters = new HashMap(3);
         parameters.put(NAME, user.getName());
         parameters.put(LOGIN, user.getLogin());
