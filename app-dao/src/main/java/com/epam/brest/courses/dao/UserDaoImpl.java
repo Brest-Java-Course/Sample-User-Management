@@ -6,7 +6,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -46,7 +50,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addUser(User user) {
+    public Long addUser(User user) {
         LOGGER.debug("addUser({}) ", user);
         Assert.notNull(user);
         Assert.isNull(user.getUserId());
@@ -56,7 +60,10 @@ public class UserDaoImpl implements UserDao {
         parameters.put(NAME, user.getName());
         parameters.put(LOGIN, user.getLogin());
         parameters.put(USER_ID, user.getUserId());
-        namedJdbcTemplate.update(addNewUserSql, parameters);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedJdbcTemplate.update(addNewUserSql, new MapSqlParameterSource(parameters), keyHolder);
+        return keyHolder.getKey().longValue();
+
     }
 
     @Override

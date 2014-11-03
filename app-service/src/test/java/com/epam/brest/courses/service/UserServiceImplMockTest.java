@@ -2,6 +2,7 @@ package com.epam.brest.courses.service;
 
 import com.epam.brest.courses.dao.UserDao;
 import com.epam.brest.courses.domain.User;
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 /**
@@ -35,20 +38,16 @@ public class UserServiceImplMockTest {
         User user = UserDataFixture.getNewUser();
 
 
-        userDao.addUser(user);
-        expectLastCall();
-
-        userDao.getUserByLogin(user.getLogin());
-        expectLastCall().andReturn(null);
-
+        expect(userDao.addUser(user)).andReturn(Long.valueOf(1L));
+        expect(userDao.getUserByLogin(user.getLogin())).andReturn(null);
         replay(userDao);
 
-        userService.addUser(user);
+        Long id = userService.addUser(user);
+        assertEquals(id, Long.valueOf(1L));
 
-        verify(userDao);
     }
 
-    @Test
+    //Test
     public void addUser2() {
         User user = UserDataFixture.getNewUser();
 
