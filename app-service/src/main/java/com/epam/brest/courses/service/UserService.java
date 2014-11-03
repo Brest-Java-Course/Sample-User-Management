@@ -13,6 +13,12 @@ public interface UserService {
 
     public User getUserByLogin(String login);
 
+    public User getUserById(long userId);
+
     public List<User> getUsers();
+
+    public void updateUser(User user);
+
+    public void removeUser(Long userId);
 
 }

@@ -50,7 +50,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(long userId) {
+        throw new NotImplementedException();
+    }
+
+    @Override
     public List<User> getUsers() {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public void updateUser(User user) {
+
+    }
+
+    @Override
+    public void removeUser(Long userId) {
+
     }
 }
