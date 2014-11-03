@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by Berdahuk.
  */
 @Controller
-@RequestMapping("/version")
+@RequestMapping()
 public class VersionRestController {
 
     @ResponseBody
-    @RequestMapping(method= RequestMethod.GET)
+    @RequestMapping(value = "/version", method= RequestMethod.GET)
     public ResponseEntity<String> getVersion() {
         return new ResponseEntity("1.0", HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.util.Assert;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -46,5 +47,10 @@ public class UserServiceImpl implements UserService {
             LOGGER.error("getUserByLogin({}) ", login);
         }
         return user;
+    }
+
+    @Override
+    public List<User> getUsers() {
+        throw new NotImplementedException();
     }
 }

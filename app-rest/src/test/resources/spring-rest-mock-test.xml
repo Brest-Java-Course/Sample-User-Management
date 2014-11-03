@@ -9,4 +9,8 @@
 
     <context:component-scan base-package="com.epam.brest.courses"/>
 
+    <bean id="userService" class="org.easymock.EasyMock" factory-method="createMock">
+        <constructor-arg value="com.epam.brest.courses.service.UserService"/>
+    </bean>
+
 </beans>
