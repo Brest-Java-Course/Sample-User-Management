@@ -10,4 +10,15 @@
         <url-pattern>/hello/*</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>springDispatchServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springDispatchServlet</servlet-name>
+        <url-pattern>/service/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
