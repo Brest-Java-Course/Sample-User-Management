@@ -8,16 +8,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by viktar on 11/4/14.
+ * Created by mentee-42 on 5.11.14.
  */
 public class HelloServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String parameter = request.getParameter("name");
+        String parameter = req.getParameter("name");
 
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
+        resp.setContentType("text/plain");
+        PrintWriter out = resp.getWriter();
+
         try {
             out.print("Hello ");
             out.print(parameter);

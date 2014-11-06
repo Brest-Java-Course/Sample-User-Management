@@ -1,6 +1,5 @@
 <web-app>
 
-
     <servlet>
         <servlet-name>helloServlet</servlet-name>
         <servlet-class>com.epam.brest.courses.web.HelloServlet</servlet-class>
@@ -11,8 +10,6 @@
         <url-pattern>/hello/*</url-pattern>
     </servlet-mapping>
 
-
-    <!-- Spring Web MVC -->
 
     <servlet>
         <servlet-name>springDispatchServlet</servlet-name>
