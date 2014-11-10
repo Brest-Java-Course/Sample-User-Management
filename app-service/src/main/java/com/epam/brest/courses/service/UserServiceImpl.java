@@ -5,6 +5,7 @@ import com.epam.brest.courses.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Long addUser(User user) {
         Assert.notNull(user);
         Assert.isNull(user.getUserId());
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public User getUserByLogin(String login) {
         LOGGER.debug("getUserByLogin({}) ", login);
         User user = null;
@@ -50,22 +53,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User getUserById(long userId) {
-        throw new NotImplementedException();
+        LOGGER.debug("getUserById({})",userId);
+        return userDao.getUserById(userId);
     }
 
     @Override
+    @Transactional
     public List<User> getUsers() {
-        throw new NotImplementedException();
+        LOGGER.debug("get users()");
+        return userDao.getUsers();
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
-
+        LOGGER.debug("updateUser({})",user);
+        userDao.updateUser(user);
     }
 
     @Override
+    @Transactional
     public void removeUser(Long userId) {
-
+        LOGGER.debug("removeUser({})",userId);
+        userDao.removeUser(userId);
     }
 }
