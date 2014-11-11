@@ -3,7 +3,6 @@ package com.epam.brest.courses.dao;
 import com.epam.brest.courses.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -24,8 +23,9 @@ import java.util.Map;
  */
 public class UserDaoImpl implements UserDao {
 
-    @Value("#{T(org.apache.commons.io.IOUtils).toString((new org.springframework.core.io.ClassPathResource('${insert_into_user_path}')).inputStream)}")
-    public String addNewUserSql;
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    public String insertUserSql = "insert into USER (userid, login, name) values (:userid, :login, :name)";
 
     public static final String DELETE_USER_SQL = "delete from USER where userid = ?";
     public static final String UPDATE_USER_SQL = "update user set name = :name, login = :login where userid = :userid";
@@ -37,8 +37,6 @@ public class UserDaoImpl implements UserDao {
     public static final String USER_ID = "userid";
     public static final String LOGIN = "login";
     public static final String NAME = "name";
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedJdbcTemplate;
@@ -60,9 +58,8 @@ public class UserDaoImpl implements UserDao {
         parameters.put(LOGIN, user.getLogin());
         parameters.put(USER_ID, user.getUserId());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedJdbcTemplate.update(addNewUserSql, new MapSqlParameterSource(parameters), keyHolder);
+        namedJdbcTemplate.update(insertUserSql, new MapSqlParameterSource(parameters), keyHolder);
         return keyHolder.getKey().longValue();
-
     }
 
     @Override
