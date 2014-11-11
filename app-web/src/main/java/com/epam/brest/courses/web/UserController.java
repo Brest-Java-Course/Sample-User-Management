@@ -2,37 +2,52 @@ package com.epam.brest.courses.web;
 
 import com.epam.brest.courses.domain.User;
 import com.epam.brest.courses.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * Created by mentee-42 on 10.11.14.
  */
 @Controller
-@RequestMapping("/mvc")
 public class UserController {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value= {"/"})
-    public ModelAndView launchInputForm() {
-        ModelAndView view = new ModelAndView("inputForm", "user", new User());
-        return view;
+    @RequestMapping("/")
+    public String init() {
+        return "redirect:/usersList";
     }
 
-    @RequestMapping(value={"/submitData"})
-    public ModelAndView getInputForm(@RequestParam("login")String login, @RequestParam("name")String userName) {
+    @RequestMapping("/inputForm")
+    public ModelAndView launchInputForm() {
+      return new ModelAndView("inputForm", "user", new User());
+    }
+
+    @RequestMapping("/submitData")
+    public String getInputForm(@RequestParam("login")String login, @RequestParam("name")String userName) {
         User user = new User();
         user.setLogin(login);
         user.setName(userName);
-        Long id = userService.addUser(user);
-        user.setUserId(id);
-        ModelAndView view = new ModelAndView("displayResult", "user", user);
-        return view;
+        userService.addUser(user);
+        return "redirect:/usersList";
+    }
+
+    @RequestMapping("/usersList")
+    public ModelAndView getListUsersView() {
+      List<User> users = userService.getUsers();
+      LOGGER.debug("users.size = " + users.size());
+      ModelAndView view = new ModelAndView("usersList", "users", users);
+      return view;
     }
 
 }

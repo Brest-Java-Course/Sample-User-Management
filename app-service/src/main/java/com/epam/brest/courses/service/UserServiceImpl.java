@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
         Assert.notNull(user.getName(), "User name should be specified.");
         User existingUser = getUserByLogin(user.getLogin());
         if (existingUser != null) {
-            throw new IllegalArgumentException("User is present in DB");
+            throw new IllegalArgumentException(user + " is present in DB");
         }
         return userDao.addUser(user);
     }
