@@ -4,9 +4,19 @@ var currentUser;
 
 findAll();
 
+// Register listeners
+$('#btnSearch').click(function () {
+    search($('#searchKey').val());
+    return false;
+});
+
 $('#btnAdd').click(function () {
     newUser();
     return false;
+});
+
+$('#userList').on('click', 'a', function () {
+    findById($(this).data('identity'));
 });
 
 $('#btnSave').click(function () {
@@ -65,6 +75,24 @@ function findAll() {
     });
 }
 
+function findById(id) {
+    console.log('findById: ' + id);
+    $.ajax({
+        type: 'GET',
+        url: REST_URL + '/' + id,
+        dataType: "json",
+        success: function (data) {
+            console.log('findById success: ' + data.name);
+            currentUser = data;
+            renderDetails(currentUser);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+            alert('findById: ' + textStatus);
+        }
+    });
+}
+
 function renderList(data) {
 // JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
     var list = data == null ? [] : (data instanceof Array ? data : [data]);
@@ -83,6 +111,46 @@ function renderDetails(user) {
     $('#userId').val(user.userId);
     $('#login').val(user.login);
     $('#name').val(user.name);
+}
+
+function search(searchKey) {
+    if (searchKey == '') {
+        findAll();
+    } else {
+        findByLogin(searchKey);
+    }
+}
+
+function findAll() {
+    console.log('findAll');
+    $.ajax({
+        type: 'GET',
+        url: REST_URL,
+        dataType: "json", // data type of response
+        success: renderList,
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+            alert('findAll: ' + textStatus);
+        }
+    });
+}
+
+function findByLogin(login) {
+    console.log('findBylogin: ' + login);
+    $.ajax({
+        type: 'GET',
+        url: REST_URL + '/login/' + login,
+        dataType: "json",
+        success: function (data) {
+            console.log('findByLogin success: ' + data.name);
+            currentUser = data;
+            renderDetails(currentUser);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+            alert('findByLogin: ' + textStatus);
+        }
+    });
 }
 
 // Helper function to serialize all the form fields into a JSON string
