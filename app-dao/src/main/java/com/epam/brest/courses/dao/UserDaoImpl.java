@@ -26,8 +26,8 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @Value("${insertUser}")
-    public String insertUser;
+//    @Value("${insertUser}")
+    public String insertUser= "insert into USER (userid, login, name) values (:userid, :login, :name)";
 
     public static final String DELETE_USER_SQL = "delete from USER where userid = ?";
     public static final String UPDATE_USER_SQL = "update user set name = :name, login = :login where userid = :userid";
