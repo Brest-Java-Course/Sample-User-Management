@@ -27,6 +27,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="app-client" />
         <module name="app-core" />
         <module name="app-dao" />
         <module name="app-rest" />
@@ -35,6 +36,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="app-client" target="1.6" />
       <module name="app-core" target="1.6" />
       <module name="app-dao" target="1.6" />
       <module name="app-rest" target="1.6" />
