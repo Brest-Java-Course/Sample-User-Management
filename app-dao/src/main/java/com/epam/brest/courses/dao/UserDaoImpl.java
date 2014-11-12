@@ -3,6 +3,7 @@ package com.epam.brest.courses.dao;
 import com.epam.brest.courses.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -25,7 +26,8 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public String insertUserSql = "insert into USER (userid, login, name) values (:userid, :login, :name)";
+    @Value("${insertUser}")
+    public String insertUser;
 
     public static final String DELETE_USER_SQL = "delete from USER where userid = ?";
     public static final String UPDATE_USER_SQL = "update user set name = :name, login = :login where userid = :userid";
@@ -58,7 +60,7 @@ public class UserDaoImpl implements UserDao {
         parameters.put(LOGIN, user.getLogin());
         parameters.put(USER_ID, user.getUserId());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedJdbcTemplate.update(insertUserSql, new MapSqlParameterSource(parameters), keyHolder);
+        namedJdbcTemplate.update(insertUser, new MapSqlParameterSource(parameters), keyHolder);
         return keyHolder.getKey().longValue();
     }
 
