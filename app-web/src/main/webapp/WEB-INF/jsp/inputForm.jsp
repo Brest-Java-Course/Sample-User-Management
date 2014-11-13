@@ -6,6 +6,5 @@
     <input type="submit" name="Submit">
 </form>
 
-<a href='<spring:url value="/users" />'> <spring:message code="user.create" /></a>
 </body>
 </html>

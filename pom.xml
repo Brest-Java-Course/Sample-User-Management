@@ -12,6 +12,7 @@
         <module>app-service</module>
         <module>app-rest</module>
         <module>app-web</module>
+        <module>app-client</module>
     </modules>
 
     <properties>
@@ -113,6 +114,11 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlets</artifactId>
+                <version>9.2.4.v20141103</version>
             </dependency>
 
             <dependency>
