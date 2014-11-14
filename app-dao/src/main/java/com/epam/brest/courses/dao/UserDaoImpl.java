@@ -3,6 +3,7 @@ package com.epam.brest.courses.dao;
 import com.epam.brest.courses.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,8 +11,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,12 +25,13 @@ import java.util.Map;
 /**
  * Created by mentee-42 on 20.10.14.
  */
+@Component
 public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-//    @Value("${insertUser}")
-    public String insertUser= "insert into USER (userid, login, name) values (:userid, :login, :name)";
+    @Value("#{T(org.apache.commons.io.IOUtils).toString((new org.springframework.core.io.ClassPathResource('${insert_into_user_path}')).inputStream)}")
+    public String insertUser;
 
     public static final String DELETE_USER_SQL = "delete from USER where userid = ?";
     public static final String UPDATE_USER_SQL = "update user set name = :name, login = :login where userid = :userid";
@@ -40,10 +44,14 @@ public class UserDaoImpl implements UserDao {
     public static final String LOGIN = "login";
     public static final String NAME = "name";
 
+    @Autowired
+    private DataSource dataSource;
+
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
-    public void setDataSource(DataSource dataSource) {
+    @PostConstruct
+    public void init() {
         jdbcTemplate = new JdbcTemplate(dataSource);
         namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -104,7 +112,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     public class UserMapper implements RowMapper<User> {
-
         public User mapRow(ResultSet rs, int i) throws SQLException {
             User user = new User();
             user.setUserId(rs.getLong(USER_ID));
