@@ -1,5 +1,7 @@
 package com.epam.brest.courses.rest;
 
+import org.springframework.http.HttpMethod;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +20,17 @@ public class OptionsFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        httpServletResponse.addHeader("Allow", "GET, POST, PUT, DELETE, OPTIONS");
-        filterChain.doFilter(servletRequest, servletResponse);
+        if (httpServletResponse.getHeader("Access-Control-Allow-Origin") == null) {
+            httpServletResponse.addHeader("Access-Control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        }
+        httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        httpServletResponse.addHeader("Access-Control-Allow-Headers", "Content-Type");
+
+        if (HttpMethod.OPTIONS.toString().equals(httpServletRequest.getMethod())) {
+            httpServletResponse.addHeader("Allow", "GET, POST, PUT, DELETE, OPTIONS");
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
     }
 
     public void destroy() {
