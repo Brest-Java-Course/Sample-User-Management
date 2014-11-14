@@ -27,6 +27,11 @@ $('#btnSave').click(function () {
     return false;
 });
 
+$('#btnRemove').click(function () {
+    removeUser();
+    return false;
+});
+
 function addUser() {
     console.log('addUser');
     $.ajax({
@@ -44,6 +49,7 @@ function addUser() {
         }
     });
 }
+
 function updateUser() {
     console.log('updateUser');
     $.ajax({
@@ -57,6 +63,23 @@ function updateUser() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('updateUser error: ' + textStatus);
+        }
+    });
+}
+
+function removeUser() {
+    console.log('removeUser');
+    $.ajax({
+        type: 'DELETE',
+        url: REST_URL + '/' + $('#userId').val(),
+        success: function (data, textStatus, jqXHR) {
+            alert('User removed successfully');
+            findAll();
+            currentUser = {};
+            renderDetails(currentUser);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('removeUser error: ' + textStatus);
         }
     });
 }
@@ -111,6 +134,10 @@ function renderDetails(user) {
     $('#userId').val(user.userId);
     $('#login').val(user.login);
     $('#name').val(user.name);
+    if (user.userId == undefined)
+        $('#btnRemove').hide();
+    else
+        $('#btnRemove').show();
 }
 
 function search(searchKey) {
