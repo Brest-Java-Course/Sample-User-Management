@@ -55,11 +55,11 @@ function updateUser() {
     $.ajax({
         type: 'PUT',
         contentType: 'application/json',
-        url: REST_URL + '/' + $('#userId').val(),
-        dataType: "json",
+        url: REST_URL,
         data: formToJSON(),
         success: function (data, textStatus, jqXHR) {
             alert('User updated successfully');
+            findAll();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('updateUser error: ' + textStatus);
@@ -134,10 +134,11 @@ function renderDetails(user) {
     $('#userId').val(user.userId);
     $('#login').val(user.login);
     $('#name').val(user.name);
-    if (user.userId == undefined)
+    if (user.userId == undefined) {
         $('#btnRemove').hide();
-    else
+    } else {
         $('#btnRemove').show();
+    }
 }
 
 function search(searchKey) {

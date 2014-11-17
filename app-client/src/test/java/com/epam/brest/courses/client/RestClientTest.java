@@ -8,13 +8,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 /**
- * Created by viktar on 11/14/14.
+ * Created by mentee-42 on 14.11.14.
  */
 public class RestClientTest {
 
@@ -24,25 +23,19 @@ public class RestClientTest {
 
     private MockRestServiceServer mockServer;
 
-    /**
-     * Set up.
-     */
     @Before
     public void setUp() {
         client = new RestClient(HOST);
         mockServer = MockRestServiceServer.createServer(client.getRestTemplate());
     }
 
-    /**
-     * Verify.
-     */
     @After
     public void check() {
         mockServer.verify();
     }
 
     @Test
-    public void version() {
+    public void versionTest() {
         mockServer.expect(requestTo(HOST + "/version"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess("123", MediaType.APPLICATION_JSON));
@@ -52,12 +45,12 @@ public class RestClientTest {
     }
 
     @Test
-    public void addUser() {
+    public void addUserTest() {
         mockServer.expect(requestTo(HOST + "/users"))
-                .andExpect(method(HttpMethod.POST))
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(content().string("{\"userId\":null,\"login\":\"login1\",\"name\":\"name1\"}"))
-                .andRespond(withSuccess("4", MediaType.APPLICATION_JSON));
+        .andExpect(method(HttpMethod.POST))
+        .andExpect(content().contentType("application/json;charset=UTF-8"))
+        .andExpect(content().string("{\"userId\":null,\"login\":\"login1\",\"name\":\"name1\"}"))
+        .andRespond(withSuccess("4", MediaType.APPLICATION_JSON));
 
         User user = new User();
         user.setLogin("login1");
@@ -70,9 +63,7 @@ public class RestClientTest {
     public void getUserById() {
         mockServer.expect(requestTo(HOST + "/users/1"))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(
-                        "{\"userId\":1,\"login\":\"login1\",\"name\":\"name1\"}",
-                        MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess("{\"userId\":1,\"login\":\"login1\",\"name\":\"name1\"}", MediaType.APPLICATION_JSON));
 
         User user = client.getUserById(1);
         assertNotNull(user);
@@ -106,10 +97,8 @@ public class RestClientTest {
     public void getUsers() {
         mockServer.expect(requestTo(HOST + "/users"))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(
-                        "[{\"userId\":1,\"login\":\"login1\",\"name\":\"name1\"}," +
-                                "{\"userId\":2,\"login\":\"login2\",\"name\":\"name2\"}]",
-                        MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess("[{\"userId\":1,\"login\":\"login1\",\"name\":\"name1\"}," +
+                        "{\"userId\":2,\"login\":\"login2\",\"name\":\"name2\"}]", MediaType.APPLICATION_JSON));
 
         User[] users = client.getUsers();
         assertEquals(2, users.length);
