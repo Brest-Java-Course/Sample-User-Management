@@ -2,7 +2,6 @@ package com.epam.brest.courses.rest.controller;
 
 import com.epam.brest.courses.domain.User;
 import com.epam.brest.courses.rest.UserRestController;
-import com.epam.brest.courses.rest.VersionRestController;
 import com.epam.brest.courses.rest.exception.NotFoundException;
 import com.epam.brest.courses.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,19 +18,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import javax.annotation.Resource;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 /**
  * Created by mentee-42 on 3.11.14.
@@ -97,10 +92,7 @@ public class UserRestControllerMockTest {
 
         replay(userService);
 
-        this.mockMvc.perform(
-                get("/users/1")
-                        .accept(MediaType.APPLICATION_JSON)
-        )
+        this.mockMvc.perform(get("/users/1").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"userId\":1,\"login\":\"login1\",\"name\":\"name1\"}"));

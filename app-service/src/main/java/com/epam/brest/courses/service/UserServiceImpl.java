@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by mentee-42 on 24.10.14.
  */
-@Component
+@Service
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
     public User getUserByLogin(String login) {
         LOGGER.debug("getUserByLogin({}) ", login);
         User user = null;
@@ -52,28 +51,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public User getUserById(long userId) {
         LOGGER.debug("getUserById({})",userId);
         return userDao.getUserById(userId);
     }
 
     @Override
-    @Transactional
     public List<User> getUsers() {
         LOGGER.debug("get users()");
         return userDao.getUsers();
     }
 
     @Override
-    @Transactional
     public void updateUser(User user) {
         LOGGER.debug("updateUser({})",user);
         userDao.updateUser(user);
     }
 
     @Override
-    @Transactional
     public void removeUser(Long userId) {
         LOGGER.debug("removeUser({})",userId);
         userDao.removeUser(userId);
