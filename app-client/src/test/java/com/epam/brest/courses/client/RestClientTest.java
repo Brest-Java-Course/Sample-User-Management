@@ -76,6 +76,24 @@ public class RestClientTest {
     }
 
     @Test
+    public void getUserByLogin() {
+        mockServer.expect(requestTo(HOST + "/users/login/login1"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess(
+                        "{\"userId\":1,\"login\":\"login1\",\"name\":\"name1\"}",
+                        MediaType.APPLICATION_JSON));
+
+        User user = client.getUserByLogin("login1");
+        assertNotNull(user);
+        assertNotNull(user.getUserId());
+        assertEquals(new Long(1), user.getUserId());
+        assertNotNull(user.getLogin());
+        assertEquals("login1", user.getLogin());
+        assertNotNull(user.getName());
+        assertEquals("name1", user.getName());
+    }
+
+    @Test
     public void getUsers() {
         mockServer.expect(requestTo(HOST + "/users"))
                 .andExpect(method(HttpMethod.GET))
@@ -98,5 +116,29 @@ public class RestClientTest {
         assertEquals("login2", users[1].getLogin());
         assertNotNull(users[1].getName());
         assertEquals("name2", users[1].getName());
+    }
+
+    @Test
+    public void updateUser() {
+        mockServer.expect(requestTo(HOST + "/users"))
+                .andExpect(method(HttpMethod.PUT))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(content().string("{\"userId\":1,\"login\":\"login1\",\"name\":\"name1\"}"))
+                .andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+
+        User user = new User();
+        user.setUserId(1L);
+        user.setLogin("login1");
+        user.setName("name1");
+        client.updateUser(user);
+    }
+
+    @Test
+    public void removeUser() {
+        mockServer.expect(requestTo(HOST + "/users/1"))
+                .andExpect(method(HttpMethod.DELETE))
+                .andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+
+        client.removeUser(1);
     }
 }
