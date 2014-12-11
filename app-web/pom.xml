@@ -86,6 +86,11 @@
                     <webApp>
                         <contextPath>/</contextPath>
                     </webApp>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>8080</port>
+                        </connector>
+                    </connectors>
                     <stopKey>stop</stopKey>
                     <stopPort>9999</stopPort>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
